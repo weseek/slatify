@@ -1,7 +1,7 @@
 {
-  "name": "container-toolkit-template",
+  "name": "weseek/slack-notification",
   "version": "0.0.0",
-  "description": "Container template action using actions/toolkit",
+  "description": "This is Slack Notification for GitHub Actions",
   "main": "lib/main.js",
   "scripts": {
     "build": "ncc build src/index.ts",
