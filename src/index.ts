@@ -20,7 +20,7 @@ async function run() {
     };
     const commitFlag: boolean = core.getInput('commit') === 'true';
     const token: string = core.getInput('token');
-    const isCompactMode: boolean = !!core.getInput('isCompactMode');
+    const isCompactMode: boolean = core.getInput('isCompactMode') === 'true';
 
     if (mention && !isValidCondition(mentionCondition)) {
       mention = '';

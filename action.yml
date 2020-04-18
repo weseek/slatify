@@ -33,7 +33,7 @@ inputs:
   isCompactMode:
     description: 'display only minimal information'
     required: false
-    default: false  
+    default: 'false'  
   token:
     description: 'need to get commit data'
     required: false
