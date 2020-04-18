@@ -30,6 +30,10 @@ inputs:
     description: 'whether include commit data or not (true or false)'
     required: false
     default: 'false'
+  isCompactMode:
+    description: 'whether display only minimal information'
+    required: false
+    default: 'false'  
   token:
     description: 'need to get commit data'
     required: false

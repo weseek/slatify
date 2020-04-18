@@ -116,6 +116,22 @@ class Block {
     }
     return fields;
   }
+
+  /**
+   * Get MrkdwnElement for compact mode
+   * @returns {Promise<MrkdwnElement[]>}
+   */
+  public async getCompactModeFields(): Promise<MrkdwnElement[]> {
+    const fields: MrkdwnElement[] = [
+      {
+        // TODO GW-1878 create compact message
+        type: 'mrkdwn',
+        text: 'this is compact mode'
+      }
+    ];
+
+    return fields;
+  }
 }
 
 export class Slack {
@@ -143,6 +159,7 @@ export class Slack {
     mention: string,
     mentionCondition: string,
     commitFlag: boolean,
+    isCompactMode: boolean,
     token?: string
   ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
@@ -156,6 +173,11 @@ export class Slack {
       type: 'section',
       fields: slackBlockUI.baseFields
     };
+
+    if (isCompactMode) {
+      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields();
+      baseBlock.fields = compactModeFields;
+    }
 
     if (commitFlag && token) {
       const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(

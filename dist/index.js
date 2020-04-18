@@ -5354,6 +5354,7 @@ function run() {
             };
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
+            const isCompactMode = core.getInput('isCompactMode') === 'true';
             if (mention && !utils_1.isValidCondition(mentionCondition)) {
                 mention = '';
                 mentionCondition = '';
@@ -5369,7 +5370,7 @@ function run() {
       `);
             }
             const slack = new slack_1.Slack();
-            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, token);
+            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token);
             console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
             yield slack.notify(url, slackOptions, payload);
             console.info('Sent message to Slack');
@@ -11262,6 +11263,22 @@ class Block {
             return fields;
         });
     }
+    /**
+     * Get MrkdwnElement for compact mode
+     * @returns {Promise<MrkdwnElement[]>}
+     */
+    getCompactModeFields() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const fields = [
+                {
+                    // TODO GW-1878 create compact message
+                    type: 'mrkdwn',
+                    text: 'this is compact mode'
+                }
+            ];
+            return fields;
+        });
+    }
 }
 class Slack {
     /**
@@ -11281,7 +11298,7 @@ class Slack {
      * @param {string} mentionCondition
      * @returns {IncomingWebhookSendArguments}
      */
-    generatePayload(jobName, status, mention, mentionCondition, commitFlag, token) {
+    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token) {
         return __awaiter(this, void 0, void 0, function* () {
             const slackBlockUI = new Block();
             const notificationType = slackBlockUI[status];
@@ -11293,6 +11310,10 @@ class Slack {
                 type: 'section',
                 fields: slackBlockUI.baseFields
             };
+            if (isCompactMode) {
+                const compactModeFields = yield slackBlockUI.getCompactModeFields();
+                baseBlock.fields = compactModeFields;
+            }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
                 Array.prototype.push.apply(baseBlock.fields, commitFields);
