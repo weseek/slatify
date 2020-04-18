@@ -11264,7 +11264,7 @@ class Block {
         });
     }
     /**
-     * Get MrkdwnElement fields including git commit data
+     * Get MrkdwnElement for compact mode
      * @returns {Promise<MrkdwnElement[]>}
      */
     getCompactModeFields() {

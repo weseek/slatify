@@ -118,7 +118,7 @@ class Block {
   }
 
   /**
-   * Get MrkdwnElement fields including git commit data
+   * Get MrkdwnElement for compact mode
    * @returns {Promise<MrkdwnElement[]>}
    */
   public async getCompactModeFields(): Promise<MrkdwnElement[]> {
