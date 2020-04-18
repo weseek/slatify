@@ -31,7 +31,7 @@ inputs:
     required: false
     default: 'false'
   isCompactMode:
-    description: 'display only minimal information'
+    description: 'whether display only minimal information'
     required: false
     default: 'false'  
   token:
