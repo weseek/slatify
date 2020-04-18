@@ -11210,14 +11210,14 @@ class Block {
             actionUrl += `/commit/${sha}/checks`;
         }
         const fields = [
-            {
-                type: 'mrkdwn',
-                text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
-            },
-            {
-                type: 'mrkdwn',
-                text: `*ref*\n${ref}`
-            },
+            // {
+            //   type: 'mrkdwn',
+            //   text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
+            // },
+            // {
+            //   type: 'mrkdwn',
+            //   text: `*ref*\n${ref}`
+            // },
             {
                 type: 'mrkdwn',
                 text: `*event name*\n${eventUrl}`
