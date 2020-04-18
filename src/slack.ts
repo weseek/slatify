@@ -47,7 +47,7 @@ class Block {
    * Get slack blocks UI
    * @returns {MrkdwnElement[]} blocks
    */
-  public get baseFields(): MrkdwnElement[] {
+  public baseFields(isCompactMode: boolean): MrkdwnElement[] {
     const {sha, eventName, workflow, ref} = this.context;
     const {owner, repo} = this.context.repo;
     const {number} = this.context.issue;
@@ -62,24 +62,41 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    const fields: MrkdwnElement[] = [
-      // {
-      //   type: 'mrkdwn',
-      //   text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
-      // },
-      // {
-      //   type: 'mrkdwn',
-      //   text: `*ref*\n${ref}`
-      // },
-      {
-        type: 'mrkdwn',
-        text: `*event name*\n${eventUrl}`
-      },
-      {
-        type: 'mrkdwn',
-        text: `*workflow*\n<${actionUrl}|${workflow}>`
-      }
-    ];
+    let fields: MrkdwnElement[] = []
+
+    if(isCompactMode){
+      fields = [
+        {
+          type: 'mrkdwn',
+          text: 'これはコンパクトモード'
+        }
+      ]
+    } 
+    else {
+      fields = [
+        {
+          type: 'mrkdwn',
+          text: `Compact mode is ${isCompactMode}`
+        },
+        {
+          type: 'mrkdwn',
+          text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
+        },
+        {
+          type: 'mrkdwn',
+          text: `*ref*\n${ref}`
+        },
+        {
+          type: 'mrkdwn',
+          text: `*event name*\n${eventUrl}`
+        },
+        {
+          type: 'mrkdwn',
+          text: `*workflow*\n<${actionUrl}|${workflow}>`
+        }
+      ];
+    }
+
     return fields;
   }
 
@@ -143,6 +160,7 @@ export class Slack {
     mention: string,
     mentionCondition: string,
     commitFlag: boolean,
+    isCompactMode: boolean,
     token?: string
   ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
@@ -154,7 +172,7 @@ export class Slack {
         : tmpText;
     let baseBlock = {
       type: 'section',
-      fields: slackBlockUI.baseFields
+      fields: slackBlockUI.baseFields(isCompactMode)
     };
 
     if (commitFlag && token) {

@@ -5354,6 +5354,7 @@ function run() {
             };
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
+            const isCompactMode = !!core.getInput('isCompactMode');
             if (mention && !utils_1.isValidCondition(mentionCondition)) {
                 mention = '';
                 mentionCondition = '';
@@ -5369,7 +5370,7 @@ function run() {
       `);
             }
             const slack = new slack_1.Slack();
-            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, token);
+            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token);
             console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
             yield slack.notify(url, slackOptions, payload);
             console.info('Sent message to Slack');
@@ -11195,7 +11196,7 @@ class Block {
      * Get slack blocks UI
      * @returns {MrkdwnElement[]} blocks
      */
-    get baseFields() {
+    baseFields(isCompactMode) {
         const { sha, eventName, workflow, ref } = this.context;
         const { owner, repo } = this.context.repo;
         const { number } = this.context.issue;
@@ -11209,24 +11210,39 @@ class Block {
         else {
             actionUrl += `/commit/${sha}/checks`;
         }
-        const fields = [
-            // {
-            //   type: 'mrkdwn',
-            //   text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
-            // },
-            // {
-            //   type: 'mrkdwn',
-            //   text: `*ref*\n${ref}`
-            // },
-            {
-                type: 'mrkdwn',
-                text: `*event name*\n${eventUrl}`
-            },
-            {
-                type: 'mrkdwn',
-                text: `*workflow*\n<${actionUrl}|${workflow}>`
-            }
-        ];
+        let fields = [];
+        if (isCompactMode) {
+            fields = [
+                {
+                    type: 'mrkdwn',
+                    text: 'これはコンパクトモード'
+                }
+            ];
+        }
+        else {
+            fields = [
+                {
+                    type: 'mrkdwn',
+                    text: `Compact mode is ${isCompactMode}`
+                },
+                {
+                    type: 'mrkdwn',
+                    text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
+                },
+                {
+                    type: 'mrkdwn',
+                    text: `*ref*\n${ref}`
+                },
+                {
+                    type: 'mrkdwn',
+                    text: `*event name*\n${eventUrl}`
+                },
+                {
+                    type: 'mrkdwn',
+                    text: `*workflow*\n<${actionUrl}|${workflow}>`
+                }
+            ];
+        }
         return fields;
     }
     /**
@@ -11281,7 +11297,7 @@ class Slack {
      * @param {string} mentionCondition
      * @returns {IncomingWebhookSendArguments}
      */
-    generatePayload(jobName, status, mention, mentionCondition, commitFlag, token) {
+    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token) {
         return __awaiter(this, void 0, void 0, function* () {
             const slackBlockUI = new Block();
             const notificationType = slackBlockUI[status];
@@ -11291,7 +11307,7 @@ class Slack {
                 : tmpText;
             let baseBlock = {
                 type: 'section',
-                fields: slackBlockUI.baseFields
+                fields: slackBlockUI.baseFields(isCompactMode)
             };
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
