@@ -1,5 +1,5 @@
 {
-  "name": "weseek/slack-notification",
+  "name": "weseek-slack-notification",
   "version": "0.0.0",
   "description": "This is Slack Notification for GitHub Actions",
   "main": "lib/main.js",
