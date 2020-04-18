@@ -62,17 +62,16 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    let fields: MrkdwnElement[] = []
+    let fields: MrkdwnElement[] = [];
 
-    if(isCompactMode){
+    if (isCompactMode) {
       fields = [
         {
           type: 'mrkdwn',
           text: 'これはコンパクトモード'
         }
-      ]
-    } 
-    else {
+      ];
+    } else {
       fields = [
         {
           type: 'mrkdwn',
