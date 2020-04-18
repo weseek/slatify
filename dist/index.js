@@ -11312,7 +11312,7 @@ class Slack {
             };
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeFields();
-                Array.prototype.push.apply(baseBlock.fields, compactModeFields);
+                baseBlock.fields = compactModeFields;
             }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
