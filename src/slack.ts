@@ -76,11 +76,7 @@ class Block {
       fields = [
         {
           type: 'mrkdwn',
-          text: `Compact mode is ${isCompactMode}`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
+          text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
         },
         {
           type: 'mrkdwn',
