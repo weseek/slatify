@@ -5354,7 +5354,7 @@ function run() {
             };
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
-            const isCompactMode = !!core.getInput('isCompactMode');
+            const isCompactMode = core.getInput('isCompactMode') === 'true';
             if (mention && !utils_1.isValidCondition(mentionCondition)) {
                 mention = '';
                 mentionCondition = '';
