@@ -174,7 +174,7 @@ export class Slack {
       fields: slackBlockUI.baseFields
     };
 
-    if (!isCompactMode) {
+    if (isCompactMode) {
       const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields();
       Array.prototype.push.apply(baseBlock.fields, compactModeFields);
     }
