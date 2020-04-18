@@ -11196,7 +11196,7 @@ class Block {
      * Get slack blocks UI
      * @returns {MrkdwnElement[]} blocks
      */
-    baseFields(isCompactMode) {
+    get baseFields() {
         const { sha, eventName, workflow, ref } = this.context;
         const { owner, repo } = this.context.repo;
         const { number } = this.context.issue;
@@ -11210,36 +11210,24 @@ class Block {
         else {
             actionUrl += `/commit/${sha}/checks`;
         }
-        let fields = [];
-        if (isCompactMode) {
-            // TODO GW-1878 create compact message
-            fields = [
-                {
-                    type: 'mrkdwn',
-                    text: 'This is compact mode'
-                }
-            ];
-        }
-        else {
-            fields = [
-                {
-                    type: 'mrkdwn',
-                    text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
-                },
-                {
-                    type: 'mrkdwn',
-                    text: `*ref*\n${ref}`
-                },
-                {
-                    type: 'mrkdwn',
-                    text: `*event name*\n${eventUrl}`
-                },
-                {
-                    type: 'mrkdwn',
-                    text: `*workflow*\n<${actionUrl}|${workflow}>`
-                }
-            ];
-        }
+        let fields = [
+            {
+                type: 'mrkdwn',
+                text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*ref*\n${ref}`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*event name*\n${eventUrl}`
+            },
+            {
+                type: 'mrkdwn',
+                text: `*workflow*\n<${actionUrl}|${workflow}>`
+            }
+        ];
         return fields;
     }
     /**
@@ -11275,6 +11263,22 @@ class Block {
             return fields;
         });
     }
+    /**
+     * Get MrkdwnElement fields including git commit data
+     * @returns {Promise<MrkdwnElement[]>}
+     */
+    getCompactModeFields() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const fields = [
+                {
+                    // TODO GW-1878 create compact message
+                    type: 'mrkdwn',
+                    text: 'this is compact mode'
+                }
+            ];
+            return fields;
+        });
+    }
 }
 class Slack {
     /**
@@ -11304,8 +11308,12 @@ class Slack {
                 : tmpText;
             let baseBlock = {
                 type: 'section',
-                fields: slackBlockUI.baseFields(isCompactMode)
+                fields: slackBlockUI.baseFields
             };
+            if (isCompactMode) {
+                const compactModeFields = yield slackBlockUI.getCompactModeFields();
+                Array.prototype.push.apply(baseBlock.fields, compactModeFields);
+            }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
                 Array.prototype.push.apply(baseBlock.fields, commitFields);

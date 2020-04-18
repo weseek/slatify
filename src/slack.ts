@@ -47,7 +47,7 @@ class Block {
    * Get slack blocks UI
    * @returns {MrkdwnElement[]} blocks
    */
-  public baseFields(isCompactMode: boolean): MrkdwnElement[] {
+  public get baseFields(): MrkdwnElement[] {
     const {sha, eventName, workflow, ref} = this.context;
     const {owner, repo} = this.context.repo;
     const {number} = this.context.issue;
@@ -62,18 +62,8 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    let fields: MrkdwnElement[] = [];
-
-    if (isCompactMode) {
-      // TODO GW-1878 create compact message
-      fields = [
-        {
-          type: 'mrkdwn',
-          text: 'This is compact mode'
-        }
-      ];
-    } else {
-      fields = [
+    let fields: MrkdwnElement[] =  
+      [
         {
           type: 'mrkdwn',
           text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
@@ -91,7 +81,6 @@ class Block {
           text: `*workflow*\n<${actionUrl}|${workflow}>`
         }
       ];
-    }
 
     return fields;
   }
@@ -127,6 +116,23 @@ class Block {
         text: `*author*\n<${authorUrl}|${authorName}>`
       });
     }
+    return fields;
+  }
+
+  /**
+   * Get MrkdwnElement fields including git commit data
+   * @returns {Promise<MrkdwnElement[]>}
+   */
+  public async getCompactModeFields(): Promise<MrkdwnElement[]> {
+
+    const fields: MrkdwnElement[] = [
+      {
+        // TODO GW-1878 create compact message
+        type: 'mrkdwn',
+        text: 'this is compact mode'
+      }
+    ];
+
     return fields;
   }
 }
@@ -168,8 +174,13 @@ export class Slack {
         : tmpText;
     let baseBlock = {
       type: 'section',
-      fields: slackBlockUI.baseFields(isCompactMode)
+      fields: slackBlockUI.baseFields
     };
+
+    if(isCompactMode){
+      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields();
+      Array.prototype.push.apply(baseBlock.fields, compactModeFields);
+    }
 
     if (commitFlag && token) {
       const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
