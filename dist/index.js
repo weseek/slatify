@@ -11212,10 +11212,11 @@ class Block {
         }
         let fields = [];
         if (isCompactMode) {
+            // TODO GW-1878 create compact message
             fields = [
                 {
                     type: 'mrkdwn',
-                    text: 'これはコンパクトモード'
+                    text: 'This is compact mode'
                 }
             ];
         }
