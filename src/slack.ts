@@ -62,7 +62,7 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    let fields: MrkdwnElement[] = [
+    const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
         text: `*repository*\n<${repoUrl}|${owner}/${repo}>`

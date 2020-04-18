@@ -11210,7 +11210,7 @@ class Block {
         else {
             actionUrl += `/commit/${sha}/checks`;
         }
-        let fields = [
+        const fields = [
             {
                 type: 'mrkdwn',
                 text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
