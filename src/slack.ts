@@ -80,7 +80,6 @@ class Block {
         text: `*workflow*\n<${actionUrl}|${workflow}>`
       }
     ];
-
     return fields;
   }
 
