@@ -62,25 +62,24 @@ class Block {
       actionUrl += `/commit/${sha}/checks`;
     }
 
-    let fields: MrkdwnElement[] =  
-      [
-        {
-          type: 'mrkdwn',
-          text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*ref*\n${ref}`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*event name*\n${eventUrl}`
-        },
-        {
-          type: 'mrkdwn',
-          text: `*workflow*\n<${actionUrl}|${workflow}>`
-        }
-      ];
+    let fields: MrkdwnElement[] = [
+      {
+        type: 'mrkdwn',
+        text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*ref*\n${ref}`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*event name*\n${eventUrl}`
+      },
+      {
+        type: 'mrkdwn',
+        text: `*workflow*\n<${actionUrl}|${workflow}>`
+      }
+    ];
 
     return fields;
   }
@@ -124,7 +123,6 @@ class Block {
    * @returns {Promise<MrkdwnElement[]>}
    */
   public async getCompactModeFields(): Promise<MrkdwnElement[]> {
-
     const fields: MrkdwnElement[] = [
       {
         // TODO GW-1878 create compact message
@@ -177,7 +175,7 @@ export class Slack {
       fields: slackBlockUI.baseFields
     };
 
-    if(isCompactMode){
+    if (isCompactMode) {
       const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields();
       Array.prototype.push.apply(baseBlock.fields, compactModeFields);
     }
