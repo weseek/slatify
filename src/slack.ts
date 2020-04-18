@@ -65,7 +65,7 @@ class Block {
     const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
-        text: `*repository*\n<${repoUrl}|${owner}/${repo}>`
+        text: `*リポジトリ*\n<${repoUrl}|${owner}/${repo}>`
       },
       {
         type: 'mrkdwn',
