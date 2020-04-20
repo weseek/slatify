@@ -122,11 +122,12 @@ class Block {
    * @returns {Promise<MrkdwnElement[]>}
    */
   public async getCompactModeFields(): Promise<MrkdwnElement[]> {
+    const {sha, eventName, workflow, ref} = this.context;
+
     const fields: MrkdwnElement[] = [
       {
-        // TODO GW-1878 create compact message
         type: 'mrkdwn',
-        text: 'this is compact mode'
+        text: `on ${ref}`
       }
     ];
 
