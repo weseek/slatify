@@ -121,7 +121,9 @@ class Block {
    * Get MrkdwnElement for compact mode
    * @returns {Promise<MrkdwnElement[]>}
    */
-  public async getCompactModeFields(notificationType:Accessory): Promise<MrkdwnElement[]> {
+  public async getCompactModeFields(
+    notificationType: Accessory
+  ): Promise<MrkdwnElement[]> {
     const {workflow, ref, actor} = this.context;
     const {owner, repo} = this.context.repo;
     const repoUrl: string = `https://github.com/${owner}/${repo}`;
@@ -180,7 +182,7 @@ export class Slack {
 
     if (isCompactMode) {
       const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
-        notificationType,
+        notificationType
       );
       baseBlock.fields = compactModeFields;
     }
