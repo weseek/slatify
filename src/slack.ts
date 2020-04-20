@@ -122,7 +122,7 @@ class Block {
    * @returns {Promise<MrkdwnElement[]>}
    */
   public async getCompactModeFields(status: string): Promise<MrkdwnElement[]> {
-    const {sha, eventName, workflow, ref,actor} = this.context;
+    const {workflow, ref, actor} = this.context;
     const {owner, repo} = this.context.repo;
     const repoUrl: string = `https://github.com/${owner}/${repo}`;
     let actionUrl: string = repoUrl;
@@ -130,7 +130,7 @@ class Block {
     const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
-        text: `It was ${status} on ${ref} by, check <${actionUrl}|${workflow}> ${actor} `
+        text: `It was ${status} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
       }
     ];
 
