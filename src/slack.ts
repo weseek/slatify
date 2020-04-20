@@ -121,7 +121,7 @@ class Block {
    * Get MrkdwnElement for compact mode
    * @returns {Promise<MrkdwnElement[]>}
    */
-  public async getCompactModeFields(result: String  ): Promise<MrkdwnElement[]> {
+  public async getCompactModeFields(result: String): Promise<MrkdwnElement[]> {
     const {workflow, ref, actor} = this.context;
     const {owner, repo} = this.context.repo;
     const repoUrl: string = `https://github.com/${owner}/${repo}`;
@@ -168,7 +168,7 @@ export class Slack {
   ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
     const notificationType: Accessory = slackBlockUI[status];
-    const {result} = notificationType
+    const {result} = notificationType;
     const tmpText: string = `${jobName} ${result}`;
     const text =
       mention && this.isMention(mentionCondition, status)
