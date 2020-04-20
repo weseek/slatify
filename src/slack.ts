@@ -123,11 +123,14 @@ class Block {
    */
   public async getCompactModeFields(status: string): Promise<MrkdwnElement[]> {
     const {sha, eventName, workflow, ref} = this.context;
-
+    const {owner, repo} = this.context.repo;
+    const repoUrl: string = `https://github.com/${owner}/${repo}`;
+    let actionUrl: string = repoUrl;
+    
     const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
-        text: `It has ${status} on ${ref}`
+        text: `It has ${status} on ${ref}, check <${actionUrl}|${workflow}>`
       }
     ];
 
