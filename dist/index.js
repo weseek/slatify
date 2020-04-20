@@ -11269,14 +11269,14 @@ class Block {
      */
     getCompactModeFields(status) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { sha, eventName, workflow, ref } = this.context;
+            const { sha, eventName, workflow, ref, actor } = this.context;
             const { owner, repo } = this.context.repo;
             const repoUrl = `https://github.com/${owner}/${repo}`;
             let actionUrl = repoUrl;
             const fields = [
                 {
                     type: 'mrkdwn',
-                    text: `It has ${status} on ${ref}, check <${actionUrl}|${workflow}>`
+                    text: `It was ${status} on ${ref} by, check <${actionUrl}|${workflow}> ${actor} `
                 }
             ];
             return fields;
