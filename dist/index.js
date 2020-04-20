@@ -11267,13 +11267,13 @@ class Block {
      * Get MrkdwnElement for compact mode
      * @returns {Promise<MrkdwnElement[]>}
      */
-    getCompactModeFields() {
+    getCompactModeFields(status) {
         return __awaiter(this, void 0, void 0, function* () {
             const { sha, eventName, workflow, ref } = this.context;
             const fields = [
                 {
                     type: 'mrkdwn',
-                    text: `on ${ref}`
+                    text: `It has ${status} on ${ref}`
                 }
             ];
             return fields;
@@ -11311,7 +11311,7 @@ class Slack {
                 fields: slackBlockUI.baseFields
             };
             if (isCompactMode) {
-                const compactModeFields = yield slackBlockUI.getCompactModeFields();
+                const compactModeFields = yield slackBlockUI.getCompactModeFields(status);
                 baseBlock.fields = compactModeFields;
             }
             if (commitFlag && token) {

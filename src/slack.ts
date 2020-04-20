@@ -121,13 +121,13 @@ class Block {
    * Get MrkdwnElement for compact mode
    * @returns {Promise<MrkdwnElement[]>}
    */
-  public async getCompactModeFields(): Promise<MrkdwnElement[]> {
+  public async getCompactModeFields(status: string): Promise<MrkdwnElement[]> {
     const {sha, eventName, workflow, ref} = this.context;
 
     const fields: MrkdwnElement[] = [
       {
         type: 'mrkdwn',
-        text: `on ${ref}`
+        text: `It has ${status} on ${ref}`
       }
     ];
 
@@ -176,7 +176,7 @@ export class Slack {
     };
 
     if (isCompactMode) {
-      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields();
+      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(status);
       baseBlock.fields = compactModeFields;
     }
 
