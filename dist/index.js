@@ -11269,11 +11269,11 @@ class Block {
      */
     getCompactModeFields() {
         return __awaiter(this, void 0, void 0, function* () {
+            const { sha, eventName, workflow, ref } = this.context;
             const fields = [
                 {
-                    // TODO GW-1878 create compact message
                     type: 'mrkdwn',
-                    text: 'this is compact mode'
+                    text: `on ${ref}`
                 }
             ];
             return fields;
