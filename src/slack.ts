@@ -176,7 +176,9 @@ export class Slack {
     };
 
     if (isCompactMode) {
-      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(status);
+      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
+        status
+      );
       baseBlock.fields = compactModeFields;
     }
 
