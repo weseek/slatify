@@ -119,7 +119,7 @@ class Block {
 
   /**
    * Get MrkdwnElement for compact mode
-   * @returns {Promise<MrkdwnElement[]>}
+   * @returns {Promise<MrkdwnElement>}
    */
   public async getCompactModeTextField(result: String): Promise<MrkdwnElement> {
     const {workflow, ref, actor} = this.context;

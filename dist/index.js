@@ -11265,7 +11265,7 @@ class Block {
     }
     /**
      * Get MrkdwnElement for compact mode
-     * @returns {Promise<MrkdwnElement[]>}
+     * @returns {Promise<MrkdwnElement>}
      */
     getCompactModeTextField(result) {
         return __awaiter(this, void 0, void 0, function* () {
