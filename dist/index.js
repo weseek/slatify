@@ -11312,15 +11312,17 @@ class Slack {
                 : tmpText;
             let baseBlock = {
                 type: 'section',
-                fields: slackBlockUI.baseFields
             };
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
-                baseBlock.fields = compactModeFields;
+                baseBlock["text"] = compactModeFields;
+            }
+            else {
+                baseBlock["fields"] = slackBlockUI.baseFields;
             }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
-                Array.prototype.push.apply(baseBlock.fields, commitFields);
+                Array.prototype.push.apply(baseBlock["fields"], commitFields);
             }
             const attachments = {
                 color: notificationType.color,
