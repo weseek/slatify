@@ -11315,7 +11315,7 @@ class Slack {
                 const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
                 baseBlock = {
                     type: 'section',
-                    text: compactModeFields,
+                    text: compactModeFields
                 };
             }
             else {
