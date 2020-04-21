@@ -11276,7 +11276,7 @@ class Block {
             const fields = [
                 {
                     type: 'mrkdwn',
-                    text: `It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
+                    text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
                 }
             ];
             return fields;
@@ -11312,15 +11312,15 @@ class Slack {
                 : tmpText;
             let baseBlock = {
                 type: 'section',
-                fields: slackBlockUI.baseFields
+                text: slackBlockUI.baseFields
             };
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
-                baseBlock.fields = compactModeFields;
+                baseBlock.text = compactModeFields;
             }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
-                Array.prototype.push.apply(baseBlock.fields, commitFields);
+                Array.prototype.push.apply(baseBlock.text, commitFields);
             }
             const attachments = {
                 color: notificationType.color,
