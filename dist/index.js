@@ -11309,7 +11309,7 @@ class Slack {
                 ? `<!${mention}> ${tmpText}`
                 : tmpText;
             let baseBlock = {
-                type: 'section',
+                type: 'section'
             };
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
