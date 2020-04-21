@@ -127,10 +127,9 @@ class Block {
     const repoUrl: string = `https://github.com/${owner}/${repo}`;
     let actionUrl: string = repoUrl;
 
-    const fields: MrkdwnElement = 
-    {
+    const fields: MrkdwnElement = {
       type: 'mrkdwn',
-      text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
+      text: `It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
     };
 
     return fields;
@@ -173,33 +172,29 @@ export class Slack {
       mention && this.isMention(mentionCondition, status)
         ? `<!${mention}> ${tmpText}`
         : tmpText;
-    const compactModeFields: MrkdwnElement = await slackBlockUI.getCompactModeFields(
-      result
-    );
-    let baseBlock = {
-      type: 'section',
-      text: compactModeFields
-    };
-    // if (isCompactMode) {
-    //   const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
-    //     result
-    //   );
-    //   baseBlock = {
-    //     type: 'section',
-    //     text: compactModeFields
-    //   };
-    // } else {
-    //   baseBlock = {
-    //     type: 'section',
-    //     fields: slackBlockUI.baseFields
-    //   };
-    // }
 
-    if (commitFlag && token) {
-      const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
-        token
+    let baseBlock;
+
+    if (isCompactMode) {
+      const compactModeFields: MrkdwnElement = await slackBlockUI.getCompactModeFields(
+        result
       );
-      Array.prototype.push.apply(baseBlock['fields'], commitFields);
+      baseBlock = {
+        type: 'section',
+        text: compactModeFields
+      };
+    } else {
+      baseBlock = {
+        type: 'section',
+        fields: slackBlockUI.baseFields
+      };
+
+      if (commitFlag && token) {
+        const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
+          token
+        );
+        Array.prototype.push.apply(baseBlock['fields'], commitFields);
+      }
     }
 
     const attachments: MessageAttachment = {
