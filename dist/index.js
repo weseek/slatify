@@ -11273,12 +11273,10 @@ class Block {
             const { owner, repo } = this.context.repo;
             const repoUrl = `https://github.com/${owner}/${repo}`;
             let actionUrl = repoUrl;
-            const fields = [
-                {
-                    type: 'mrkdwn',
-                    text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
-                }
-            ];
+            const fields = {
+                type: 'mrkdwn',
+                text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
+            };
             return fields;
         });
     }

@@ -121,18 +121,17 @@ class Block {
    * Get MrkdwnElement for compact mode
    * @returns {Promise<MrkdwnElement[]>}
    */
-  public async getCompactModeFields(result: String): Promise<MrkdwnElement[]> {
+  public async getCompactModeFields(result: String): Promise<MrkdwnElement> {
     const {workflow, ref, actor} = this.context;
     const {owner, repo} = this.context.repo;
     const repoUrl: string = `https://github.com/${owner}/${repo}`;
     let actionUrl: string = repoUrl;
 
-    const fields: MrkdwnElement[] = [
-      {
-        type: 'mrkdwn',
-        text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
-      }
-    ];
+    const fields: MrkdwnElement = 
+    {
+      type: 'mrkdwn',
+      text: `It has ${result} by <@${actor}> on ${ref}, check <${actionUrl}|${workflow}>`
+    };
 
     return fields;
   }
@@ -174,7 +173,7 @@ export class Slack {
       mention && this.isMention(mentionCondition, status)
         ? `<!${mention}> ${tmpText}`
         : tmpText;
-    const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
+    const compactModeFields: MrkdwnElement = await slackBlockUI.getCompactModeFields(
       result
     );
     let baseBlock = {
