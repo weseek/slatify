@@ -176,21 +176,21 @@ export class Slack {
         : tmpText;
     let baseBlock = {
       type: 'section',
-      text: slackBlockUI.baseFields
+      fields: slackBlockUI.baseFields
     };
 
     if (isCompactMode) {
       const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
         result
       );
-      baseBlock.text = compactModeFields;
+      baseBlock.fields = compactModeFields;
     }
 
     if (commitFlag && token) {
       const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(
         token
       );
-      Array.prototype.push.apply(baseBlock.text, commitFields);
+      Array.prototype.push.apply(baseBlock.fields, commitFields);
     }
 
     const attachments: MessageAttachment = {
