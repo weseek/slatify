@@ -11269,13 +11269,13 @@ class Block {
      */
     getCompactModeTextField(result) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { workflow, ref, actor } = this.context;
+            const { sha, workflow, ref, actor } = this.context;
             const { owner, repo } = this.context.repo;
             const repoUrl = `https://github.com/${owner}/${repo}`;
-            let actionUrl = repoUrl;
+            let actionUrl = `${repoUrl}/commit/${sha}/checks`;
             const textField = {
                 type: 'mrkdwn',
-                text: `It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
+                text: `<${repoUrl}|${owner}/${repo}> It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
             };
             return textField;
         });
