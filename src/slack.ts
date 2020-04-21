@@ -174,17 +174,21 @@ export class Slack {
       mention && this.isMention(mentionCondition, status)
         ? `<!${mention}> ${tmpText}`
         : tmpText;
-    let baseBlock = {
-      type: 'section'
-    };
+    let baseBlock
 
     if (isCompactMode) {
       const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
         result
       );
-      baseBlock['text'] = compactModeFields;
-    } else {
-      baseBlock['fields'] = slackBlockUI.baseFields;
+      baseBlock = {
+        type: 'section',
+        text: compactModeFields,
+      }
+    }else{
+      baseBlock = {
+        type: 'section',
+        fields : slackBlockUI.baseFields
+      };  
     }
 
     if (commitFlag && token) {
