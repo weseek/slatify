@@ -11265,18 +11265,19 @@ class Block {
     }
     /**
      * Get MrkdwnElement for compact mode
-     * @returns {Promise<MrkdwnElement[]>}
+     * @returns {Promise<MrkdwnElement>}
      */
-    getCompactModeFields() {
+    getCompactModeTextField(result) {
         return __awaiter(this, void 0, void 0, function* () {
-            const fields = [
-                {
-                    // TODO GW-1878 create compact message
-                    type: 'mrkdwn',
-                    text: 'this is compact mode'
-                }
-            ];
-            return fields;
+            const { sha, workflow, ref, actor } = this.context;
+            const { owner, repo } = this.context.repo;
+            const repoUrl = `https://github.com/${owner}/${repo}`;
+            let actionUrl = `${repoUrl}/commit/${sha}/checks`;
+            const textField = {
+                type: 'mrkdwn',
+                text: `[<${repoUrl}|${owner}/${repo}>] It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
+            };
+            return textField;
         });
     }
 }
@@ -11302,21 +11303,24 @@ class Slack {
         return __awaiter(this, void 0, void 0, function* () {
             const slackBlockUI = new Block();
             const notificationType = slackBlockUI[status];
-            const tmpText = `${jobName} ${notificationType.result}`;
+            const { result } = notificationType;
+            const tmpText = `${jobName} ${result}`;
             const text = mention && this.isMention(mentionCondition, status)
                 ? `<!${mention}> ${tmpText}`
                 : tmpText;
             let baseBlock = {
-                type: 'section',
-                fields: slackBlockUI.baseFields
+                type: 'section'
             };
             if (isCompactMode) {
-                const compactModeFields = yield slackBlockUI.getCompactModeFields();
-                baseBlock.fields = compactModeFields;
+                const compactModeFields = yield slackBlockUI.getCompactModeTextField(result);
+                baseBlock['text'] = compactModeFields;
             }
-            if (commitFlag && token) {
-                const commitFields = yield slackBlockUI.getCommitFields(token);
-                Array.prototype.push.apply(baseBlock.fields, commitFields);
+            else {
+                baseBlock['fields'] = slackBlockUI.baseFields;
+                if (commitFlag && token) {
+                    const commitFields = yield slackBlockUI.getCommitFields(token);
+                    Array.prototype.push.apply(baseBlock['fields'], commitFields);
+                }
             }
             const attachments = {
                 color: notificationType.color,
