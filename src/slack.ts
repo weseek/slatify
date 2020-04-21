@@ -174,22 +174,27 @@ export class Slack {
       mention && this.isMention(mentionCondition, status)
         ? `<!${mention}> ${tmpText}`
         : tmpText;
-    let baseBlock;
-
-    if (isCompactMode) {
-      const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
-        result
-      );
-      baseBlock = {
-        type: 'section',
-        text: compactModeFields
-      };
-    } else {
-      baseBlock = {
-        type: 'section',
-        fields: slackBlockUI.baseFields
-      };
-    }
+    const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
+      result
+    );
+    let baseBlock = {
+      type: 'section',
+      text: compactModeFields
+    };
+    // if (isCompactMode) {
+    //   const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
+    //     result
+    //   );
+    //   baseBlock = {
+    //     type: 'section',
+    //     text: compactModeFields
+    //   };
+    // } else {
+    //   baseBlock = {
+    //     type: 'section',
+    //     fields: slackBlockUI.baseFields
+    //   };
+    // }
 
     if (commitFlag && token) {
       const commitFields: MrkdwnElement[] = await slackBlockUI.getCommitFields(

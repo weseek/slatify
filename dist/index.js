@@ -11310,20 +11310,25 @@ class Slack {
             const text = mention && this.isMention(mentionCondition, status)
                 ? `<!${mention}> ${tmpText}`
                 : tmpText;
-            let baseBlock;
-            if (isCompactMode) {
-                const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
-                baseBlock = {
-                    type: 'section',
-                    text: compactModeFields
-                };
-            }
-            else {
-                baseBlock = {
-                    type: 'section',
-                    fields: slackBlockUI.baseFields
-                };
-            }
+            const compactModeFields = yield slackBlockUI.getCompactModeFields(result);
+            let baseBlock = {
+                type: 'section',
+                text: compactModeFields
+            };
+            // if (isCompactMode) {
+            //   const compactModeFields: MrkdwnElement[] = await slackBlockUI.getCompactModeFields(
+            //     result
+            //   );
+            //   baseBlock = {
+            //     type: 'section',
+            //     text: compactModeFields
+            //   };
+            // } else {
+            //   baseBlock = {
+            //     type: 'section',
+            //     fields: slackBlockUI.baseFields
+            //   };
+            // }
             if (commitFlag && token) {
                 const commitFields = yield slackBlockUI.getCommitFields(token);
                 Array.prototype.push.apply(baseBlock['fields'], commitFields);
