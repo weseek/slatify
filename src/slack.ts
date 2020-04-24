@@ -129,7 +129,7 @@ class Block {
 
     const textField: MrkdwnElement = {
       type: 'mrkdwn',
-      text: `[<${repoUrl}|${owner}/${repo}>] It has ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
+      text: `[<${repoUrl}|${owner}/${repo}>] ${result} by ${actor} on ${ref}, check <${actionUrl}|${workflow}>`
     };
 
     return textField;
