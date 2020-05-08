@@ -11312,13 +11312,9 @@ class Slack {
             let baseBlock = {
                 type: 'section'
             };
-            if (isCompactMode) {
+            if (isCompactMode || isReleaseMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeTextField(result);
                 baseBlock['text'] = compactModeFields;
-            }
-            else if (isReleaseMode) {
-                const releaseModeFields = yield slackBlockUI.getCompactModeTextField(result);
-                baseBlock['text'] = releaseModeFields;
             }
             else {
                 baseBlock['fields'] = slackBlockUI.baseFields;

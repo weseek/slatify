@@ -178,16 +178,11 @@ export class Slack {
       type: 'section'
     };
 
-    if (isCompactMode) {
+    if (isCompactMode || isReleaseMode) {
       const compactModeFields: MrkdwnElement = await slackBlockUI.getCompactModeTextField(
         result
       );
       baseBlock['text'] = compactModeFields;
-    } else if (isReleaseMode) {
-      const releaseModeFields: MrkdwnElement = await slackBlockUI.getCompactModeTextField(
-        result
-      );
-      baseBlock['text'] = releaseModeFields;
     } else {
       baseBlock['fields'] = slackBlockUI.baseFields;
 
