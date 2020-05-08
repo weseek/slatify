@@ -11281,6 +11281,19 @@ class Block {
             return textField;
         });
     }
+    /**
+     * Get MrkdwnElement for release mode
+     * @returns {Promise<MrkdwnElement>}
+     */
+    getReleaseModeTextField(result) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const textField = {
+                type: 'mrkdwn',
+                text: `https://github.com/weseek/growi/releases/tag/v3.7.5`
+            };
+            return textField;
+        });
+    }
 }
 class Slack {
     /**
@@ -11317,8 +11330,8 @@ class Slack {
                 baseBlock['text'] = compactModeFields;
             }
             else if (isReleaseMode) {
-                const compactModeFields = yield slackBlockUI.getCompactModeTextField(result);
-                baseBlock['text'] = compactModeFields;
+                const releaseModeFields = yield slackBlockUI.getReleaseModeTextField(result);
+                baseBlock['text'] = releaseModeFields;
             }
             else {
                 baseBlock['fields'] = slackBlockUI.baseFields;

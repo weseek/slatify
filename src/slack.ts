@@ -134,6 +134,19 @@ class Block {
 
     return textField;
   }
+
+  /**
+   * Get MrkdwnElement for release mode
+   * @returns {Promise<MrkdwnElement>}
+   */
+  public async getReleaseModeTextField(result: String): Promise<MrkdwnElement> {
+    const textField: MrkdwnElement = {
+      type: 'mrkdwn',
+      text: `https://github.com/weseek/growi/releases/tag/v3.7.5`
+    };
+
+    return textField;
+  }
 }
 
 export class Slack {
@@ -184,10 +197,10 @@ export class Slack {
       );
       baseBlock['text'] = compactModeFields;
     } else if (isReleaseMode) {
-      const compactModeFields: MrkdwnElement = await slackBlockUI.getCompactModeTextField(
+      const releaseModeFields: MrkdwnElement = await slackBlockUI.getReleaseModeTextField(
         result
       );
-      baseBlock['text'] = compactModeFields;
+      baseBlock['text'] = releaseModeFields;
     } else {
       baseBlock['fields'] = slackBlockUI.baseFields;
 
