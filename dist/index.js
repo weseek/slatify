@@ -11287,9 +11287,10 @@ class Block {
      */
     getReleaseModeTextField(result) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { ref } = this.context;
             const textField = {
                 type: 'mrkdwn',
-                text: `https://github.com/weseek/growi/releases/tag/v3.7.5`
+                text: `https://github.com/weseek/growi/releases/tag/v${ref}`
             };
             return textField;
         });

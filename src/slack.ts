@@ -140,9 +140,11 @@ class Block {
    * @returns {Promise<MrkdwnElement>}
    */
   public async getReleaseModeTextField(result: String): Promise<MrkdwnElement> {
+    const {ref} = this.context;
+
     const textField: MrkdwnElement = {
       type: 'mrkdwn',
-      text: `https://github.com/weseek/growi/releases/tag/v3.7.5`
+      text: `https://github.com/weseek/growi/releases/tag/v${ref}`
     };
 
     return textField;
