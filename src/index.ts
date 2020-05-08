@@ -21,6 +21,7 @@ async function run() {
     const commitFlag: boolean = core.getInput('commit') === 'true';
     const token: string = core.getInput('token');
     const isCompactMode: boolean = core.getInput('isCompactMode') === 'true';
+    const isReleaseMode: boolean = core.getInput('isReleaseMode') === 'true';
 
     if (mention && !isValidCondition(mentionCondition)) {
       mention = '';
@@ -46,6 +47,7 @@ async function run() {
       mentionCondition,
       commitFlag,
       isCompactMode,
+      isReleaseMode,
       token
     );
     console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);

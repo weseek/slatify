@@ -5355,6 +5355,7 @@ function run() {
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
             const isCompactMode = core.getInput('isCompactMode') === 'true';
+            const isReleaseMode = core.getInput('isReleaseMode') === 'true';
             if (mention && !utils_1.isValidCondition(mentionCondition)) {
                 mention = '';
                 mentionCondition = '';
@@ -5370,7 +5371,7 @@ function run() {
       `);
             }
             const slack = new slack_1.Slack();
-            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token);
+            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, isReleaseMode, token);
             console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
             yield slack.notify(url, slackOptions, payload);
             console.info('Sent message to Slack');
@@ -11299,7 +11300,7 @@ class Slack {
      * @param {string} mentionCondition
      * @returns {IncomingWebhookSendArguments}
      */
-    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token) {
+    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, isReleaseMode, token) {
         return __awaiter(this, void 0, void 0, function* () {
             const slackBlockUI = new Block();
             const notificationType = slackBlockUI[status];
@@ -11314,6 +11315,10 @@ class Slack {
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeTextField(result);
                 baseBlock['text'] = compactModeFields;
+            }
+            else if (isReleaseMode) {
+                const releaseModeFields = yield slackBlockUI.getCompactModeTextField(result);
+                baseBlock['text'] = releaseModeFields;
             }
             else {
                 baseBlock['fields'] = slackBlockUI.baseFields;

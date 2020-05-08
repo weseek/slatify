@@ -162,6 +162,7 @@ export class Slack {
     mentionCondition: string,
     commitFlag: boolean,
     isCompactMode: boolean,
+    isReleaseMode: boolean,
     token?: string
   ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
@@ -182,6 +183,11 @@ export class Slack {
         result
       );
       baseBlock['text'] = compactModeFields;
+    } else if (isReleaseMode) {
+      const releaseModeFields: MrkdwnElement = await slackBlockUI.getCompactModeTextField(
+        result
+      );
+      baseBlock['text'] = releaseModeFields;
     } else {
       baseBlock['fields'] = slackBlockUI.baseFields;
 
