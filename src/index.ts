@@ -22,8 +22,8 @@ async function run() {
     const token: string = core.getInput('token');
     const isCompactMode: boolean = core.getInput('isCompactMode') === 'true';
     const isReleaseMode: boolean = core.getInput('isReleaseMode') === 'true';
-    const created_tag: string = core.getInput('created_tag')  
-    
+    const created_tag: string = core.getInput('created_tag');
+
     if (mention && !isValidCondition(mentionCondition)) {
       mention = '';
       mentionCondition = '';

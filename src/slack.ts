@@ -139,8 +139,9 @@ class Block {
    * Get MrkdwnElement for release mode
    * @returns {Promise<MrkdwnElement>}
    */
-  public async getReleaseModeTextField(created_tag:string): Promise<MrkdwnElement> {
-
+  public async getReleaseModeTextField(
+    created_tag: string
+  ): Promise<MrkdwnElement> {
     const textField: MrkdwnElement = {
       type: 'mrkdwn',
       text: `https://github.com/weseek/growi/releases/tag/v${created_tag}`
