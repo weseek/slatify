@@ -144,7 +144,7 @@ class Block {
   ): Promise<MrkdwnElement> {
     const textField: MrkdwnElement = {
       type: 'mrkdwn',
-      text: `https://github.com/weseek/growi/releases/tag/v${created_tag}`
+      text: `https://github.com/weseek/growi/releases/tag/${created_tag}`
     };
 
     return textField;

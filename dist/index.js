@@ -11290,7 +11290,7 @@ class Block {
         return __awaiter(this, void 0, void 0, function* () {
             const textField = {
                 type: 'mrkdwn',
-                text: `https://github.com/weseek/growi/releases/tag/v${created_tag}`
+                text: `https://github.com/weseek/growi/releases/tag/${created_tag}`
             };
             return textField;
         });
