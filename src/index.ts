@@ -22,7 +22,8 @@ async function run() {
     const token: string = core.getInput('token');
     const isCompactMode: boolean = core.getInput('isCompactMode') === 'true';
     const isReleaseMode: boolean = core.getInput('isReleaseMode') === 'true';
-
+    const created_tag: string = core.getInput('created_tag')  
+    
     if (mention && !isValidCondition(mentionCondition)) {
       mention = '';
       mentionCondition = '';
@@ -48,6 +49,7 @@ async function run() {
       commitFlag,
       isCompactMode,
       isReleaseMode,
+      created_tag,
       token
     );
     console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);

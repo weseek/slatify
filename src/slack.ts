@@ -139,12 +139,11 @@ class Block {
    * Get MrkdwnElement for release mode
    * @returns {Promise<MrkdwnElement>}
    */
-  public async getReleaseModeTextField(result: String): Promise<MrkdwnElement> {
-    const {ref} = this.context;
+  public async getReleaseModeTextField(created_tag:string): Promise<MrkdwnElement> {
 
     const textField: MrkdwnElement = {
       type: 'mrkdwn',
-      text: `https://github.com/weseek/growi/releases/tag/v${ref}`
+      text: `https://github.com/weseek/growi/releases/tag/v${created_tag}`
     };
 
     return textField;
@@ -178,6 +177,7 @@ export class Slack {
     commitFlag: boolean,
     isCompactMode: boolean,
     isReleaseMode: boolean,
+    created_tag: string,
     token?: string
   ): Promise<IncomingWebhookSendArguments> {
     const slackBlockUI = new Block();
@@ -200,7 +200,7 @@ export class Slack {
       baseBlock['text'] = compactModeFields;
     } else if (isReleaseMode) {
       const releaseModeFields: MrkdwnElement = await slackBlockUI.getReleaseModeTextField(
-        result
+        created_tag
       );
       baseBlock['text'] = releaseModeFields;
     } else {
