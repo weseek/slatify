@@ -5355,6 +5355,8 @@ function run() {
             const commitFlag = core.getInput('commit') === 'true';
             const token = core.getInput('token');
             const isCompactMode = core.getInput('isCompactMode') === 'true';
+            const isReleaseMode = core.getInput('isReleaseMode') === 'true';
+            const created_tag = core.getInput('created_tag');
             if (mention && !utils_1.isValidCondition(mentionCondition)) {
                 mention = '';
                 mentionCondition = '';
@@ -5370,7 +5372,7 @@ function run() {
       `);
             }
             const slack = new slack_1.Slack();
-            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token);
+            const payload = yield slack.generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, isReleaseMode, created_tag, token);
             console.info(`Generated payload for slack: ${JSON.stringify(payload)}`);
             yield slack.notify(url, slackOptions, payload);
             console.info('Sent message to Slack');
@@ -11280,6 +11282,19 @@ class Block {
             return textField;
         });
     }
+    /**
+     * Get MrkdwnElement for release mode
+     * @returns {Promise<MrkdwnElement>}
+     */
+    getReleaseModeTextField(created_tag) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const textField = {
+                type: 'mrkdwn',
+                text: `https://github.com/weseek/growi/releases/tag/${created_tag}`
+            };
+            return textField;
+        });
+    }
 }
 class Slack {
     /**
@@ -11299,7 +11314,7 @@ class Slack {
      * @param {string} mentionCondition
      * @returns {IncomingWebhookSendArguments}
      */
-    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, token) {
+    generatePayload(jobName, status, mention, mentionCondition, commitFlag, isCompactMode, isReleaseMode, created_tag, token) {
         return __awaiter(this, void 0, void 0, function* () {
             const slackBlockUI = new Block();
             const notificationType = slackBlockUI[status];
@@ -11314,6 +11329,10 @@ class Slack {
             if (isCompactMode) {
                 const compactModeFields = yield slackBlockUI.getCompactModeTextField(result);
                 baseBlock['text'] = compactModeFields;
+            }
+            else if (isReleaseMode) {
+                const releaseModeFields = yield slackBlockUI.getReleaseModeTextField(created_tag);
+                baseBlock['text'] = releaseModeFields;
             }
             else {
                 baseBlock['fields'] = slackBlockUI.baseFields;

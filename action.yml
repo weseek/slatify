@@ -34,6 +34,13 @@ inputs:
     description: 'whether display only minimal information'
     required: false
     default: 'false'  
+  isReleaseMode:
+    description: 'whether display release information'
+    required: false
+    default: 'false' 
+  created_tag: 
+      description: 'created tag for release'
+      required: false 
   token:
     description: 'need to get commit data'
     required: false
